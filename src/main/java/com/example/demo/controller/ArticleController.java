@@ -2,10 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.Model.ArticleVO;
 import com.example.demo.Model.HttpResponse;
+import com.example.demo.dao.Article;
+import com.example.demo.dao.ArticleRepository;
 import com.example.demo.service.ArticleRestJpaServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Author: pengfei
@@ -18,6 +21,9 @@ public class ArticleController {
 
     @Resource
     ArticleRestJpaServiceImpl articleRestJpaService;
+
+    @Resource
+    ArticleRepository articleRepository;
 
     //保存文章
     @PostMapping("/article")
@@ -41,6 +47,13 @@ public class ArticleController {
         ArticleVO articleVO = articleRestJpaService.getArticle(id);
         return HttpResponse.success(articleVO);
     }
+    //按作者查找文章
+    @GetMapping("/articleByAuthor/{author}")
+    public HttpResponse findArticleByAuthor(@PathVariable String author) {
+        List<ArticleVO> list = articleRestJpaService.getArticle(author);
+        return HttpResponse.success(list);
+    }
+
     //删除文章
     @DeleteMapping("/article/{id}")
     public HttpResponse deleteArticle(@PathVariable Long id) {

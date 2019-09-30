@@ -45,6 +45,11 @@ public class ArticleRestJpaServiceImpl implements ArticleRestJpaService{
         return articleVO;
     }
 
+    public List<ArticleVO> getArticle(String author) {
+        List<Article> list = (List<Article>) articleRepository.findByAuthor(author);
+        return DozerUtils.mapList(list,ArticleVO.class);
+    }
+
     @Override
     public void deleteArticle(Long id) {
         articleRepository.deleteById(id);
@@ -55,4 +60,6 @@ public class ArticleRestJpaServiceImpl implements ArticleRestJpaService{
         List<Article> list = articleRepository.findAll();
         return DozerUtils.mapList(list, ArticleVO.class);
     }
+
+
 }
