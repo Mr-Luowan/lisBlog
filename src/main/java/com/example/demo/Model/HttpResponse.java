@@ -1,16 +1,14 @@
 package com.example.demo.Model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class HttpResponse {
     private int status;
     private Object data;
     private String message;
 
-    private HttpResponse(int status, Object data, String message) {
+    private HttpResponse(int status, String message, Object data) {
         this.status = status;
         this.data = data;
         this.message = message;
@@ -41,14 +39,18 @@ public class HttpResponse {
     }
 
     public static HttpResponse success() {
-        return new HttpResponse(200, null, "ok");
+        return new HttpResponse(200, "ok", null);
     }
 
     public static HttpResponse success(Object object) {
-        return new HttpResponse(200, object, "ok");
+        return new HttpResponse(200, "ok", object);
     }
 
     public static HttpResponse error() {
-        return new HttpResponse(400, null, "error");
+        return error("error");
+    }
+
+    public static HttpResponse error(String message) {
+        return new HttpResponse(400, message, null);
     }
 }
