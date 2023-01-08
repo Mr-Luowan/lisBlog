@@ -14,7 +14,10 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+lisblog_server/.idea/
+lisblog_server/.mvn/
+lisblog_server/mvnw
+lisblog_server/mvnw.cmd
 *.iws
 *.iml
 *.ipr
