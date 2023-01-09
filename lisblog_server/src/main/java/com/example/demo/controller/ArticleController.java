@@ -4,7 +4,8 @@ package com.example.demo.controller;
 import com.example.demo.Model.Article;
 import com.example.demo.Model.HttpResponse;
 import com.example.demo.service.ArticleService;
-import org.springframework.beans.factory.ListableBeanFactory;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author lpf
@@ -34,19 +35,21 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")
-    public HttpResponse getAllArticle() {
+    public HttpResponse listArticle(@RequestParam("page") int page, @RequestParam("size") int size) {
+        PageHelper.startPage(page, size);
         List<Article> articles = articleService.list();
-        List<Article> newList = new ArrayList<>(articles);
-        articles.addAll(newList);
-        articles.addAll(newList);
-        articles.addAll(newList);
-        articles.addAll(newList);
-        articles.addAll(newList);
-        articles.addAll(newList);
-        articles.addAll(newList);
-        articles.addAll(newList);
-        articles.addAll(newList);
-        return HttpResponse.success(articles);
+        PageInfo<Article> articleResult = new PageInfo<>(articles);
+//        List<Article> newList = new ArrayList<>(articles);
+//        articles.addAll(newList);
+//        articles.addAll(newList);
+//        articles.addAll(newList);
+//        articles.addAll(newList);
+//        articles.addAll(newList);
+//        articles.addAll(newList);
+//        articles.addAll(newList);
+//        articles.addAll(newList);
+//        articles.addAll(newList);
+        return HttpResponse.success(articleResult.getList());
     }
 
 }

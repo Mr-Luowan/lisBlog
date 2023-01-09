@@ -3,6 +3,8 @@ package com.example.demo.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.demo.Model.Article;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -13,4 +15,5 @@ import com.example.demo.Model.Article;
  */
 public interface ArticleMapper extends BaseMapper<Article> {
 
+    List<Article> getArticleByPage(int page, int size);
 }

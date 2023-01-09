@@ -20,7 +20,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User findUserByName(String userName) {
         if (this.baseMapper != null) {
-            return ((UserMapper) this.baseMapper).findUserByName(userName);
+            return this.baseMapper.findUserByName(userName);
         } else {
             return null;
         }
