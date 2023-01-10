@@ -4,6 +4,7 @@ package com.example.demo.controller;
 import com.example.demo.Model.HttpResponse;
 import com.example.demo.Model.User;
 import com.example.demo.service.UserService;
+import com.example.demo.shiro.JwtToken;
 import com.example.demo.util.JwtUtils;
 import com.example.demo.util.SnowflakeIdWorker;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -38,6 +41,13 @@ public class UserController {
     @Autowired
     SnowflakeIdWorker snowflakeIdWorker;
 
+
+    @PostMapping
+    public HttpResponse register(User user) {
+        return null;
+    }
+
+
     @PostMapping("/login")
     public HttpResponse login(User user, HttpServletResponse httpServletResponse) {
         User dbUser = userService.findUserByName(user.getUserName());
@@ -49,10 +59,16 @@ public class UserController {
             logger.error(TAG + "密码错误");
             return HttpResponse.error("密码错误");
         }
-        String jwt = jwtUtils.generateToken(dbUser.getId());
-        httpServletResponse.setHeader("Authorization", jwt);
-        httpServletResponse.setHeader("Access-control-Expose-Headers", "Authorization");
-        return HttpResponse.success("login success");
+//        String jwt = jwtUtils.generateToken(dbUser.getId());
+//        httpServletResponse.setHeader("Authorization", jwt);
+//        httpServletResponse.setHeader("Access-control-Expose-Headers", "Authorization");
+        Map<String, Object> data = new HashMap<>(10);
+        data.put("roles", dbUser.getRoles());
+        data.put("id", dbUser.getId());
+        data.put("userName", dbUser.getUserName());
+        String token = jwtUtils.generateToken(data);
+        JwtToken jwtToken = new JwtToken(token);
+        return HttpResponse.success(token);
     }
 
     // 验证用户是否登录，等同于方法subject.isAuthenticated() 结果为true时

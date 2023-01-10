@@ -19,4 +19,11 @@ public class JwtToken implements AuthenticationToken {
     public Object getCredentials() {
         return token;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "token:'" + token + '\'' +
+                '}';
+    }
 }

@@ -57,4 +57,14 @@ public class HttpResponse {
     public static HttpResponse error(int code, String msg, Object data) {
         return new HttpResponse(code, msg, data);
     }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+                "status=" + status +
+                ", data=" + data +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }
