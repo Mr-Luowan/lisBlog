@@ -4,10 +4,8 @@ package com.example.demo.controller;
 import com.example.demo.Model.HttpResponse;
 import com.example.demo.Model.User;
 import com.example.demo.service.UserService;
-import com.example.demo.shiro.JwtToken;
 import com.example.demo.util.JwtUtils;
 import com.example.demo.util.SnowflakeIdWorker;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -67,19 +65,16 @@ public class UserController {
         data.put("id", dbUser.getId());
         data.put("userName", dbUser.getUserName());
         String token = jwtUtils.generateToken(data);
-        JwtToken jwtToken = new JwtToken(token);
         return HttpResponse.success(token);
     }
 
     // 验证用户是否登录，等同于方法subject.isAuthenticated() 结果为true时
-    @RequiresAuthentication
     @GetMapping("/logout")
     public HttpResponse logout() {
         return HttpResponse.success("退出成功");
     }
 
 
-    @RequiresAuthentication
     @GetMapping("/{id}")
     public HttpResponse deleteUser(@PathVariable("id") String userId) {
         logger.info(TAG + "需要删除的用户Id   " + userId);

@@ -34,9 +34,15 @@ public class ArticleController {
         return HttpResponse.success(articleById);
     }
 
+
+    @PostMapping("/add")
+    public HttpResponse addNewArticle(Article article) {
+        return articleService.addNewArticle(article);
+    }
+
     @GetMapping("/articles")
-    public HttpResponse listArticle(@RequestParam("page") int page, @RequestParam("size") int size) {
-        PageHelper.startPage(page, size);
+    public HttpResponse listArticle(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
         List<Article> articles = articleService.list();
         PageInfo<Article> articleResult = new PageInfo<>(articles);
 //        List<Article> newList = new ArrayList<>(articles);
