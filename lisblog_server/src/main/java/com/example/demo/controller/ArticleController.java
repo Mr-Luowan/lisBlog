@@ -2,14 +2,13 @@ package com.example.demo.controller;
 
 
 import com.example.demo.Model.Article;
-import com.example.demo.Model.HttpResponse;
+import com.example.demo.response.ResponseResult;
 import com.example.demo.service.ArticleService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,19 +28,19 @@ public class ArticleController {
 
 
     @GetMapping("/{id}")
-    public HttpResponse getArticleById(@PathVariable("id") int id) {
+    public ResponseResult getArticleById(@PathVariable("id") int id) {
         Article articleById = articleService.getById(id);
-        return HttpResponse.success(articleById);
+        return ResponseResult.success(articleById);
     }
 
 
     @PostMapping("/add")
-    public HttpResponse addNewArticle(Article article) {
+    public ResponseResult addNewArticle(Article article) {
         return articleService.addNewArticle(article);
     }
 
     @GetMapping("/articles")
-    public HttpResponse listArticle(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize) {
+    public ResponseResult listArticle(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Article> articles = articleService.list();
         PageInfo<Article> articleResult = new PageInfo<>(articles);
@@ -55,7 +54,7 @@ public class ArticleController {
 //        articles.addAll(newList);
 //        articles.addAll(newList);
 //        articles.addAll(newList);
-        return HttpResponse.success(articleResult.getList());
+        return ResponseResult.success(articleResult.getList());
     }
 
 }

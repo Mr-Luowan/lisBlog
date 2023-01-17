@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component;
 public class UofferProperties {
 
 
-    @Value("${ShiroAnonUrl}")
-    String ShiroAnonUrl;
-
-    /**
-     * 获取免认证接口 url
-     */
-    public String getShiroAnonUrl() {
-        return ShiroAnonUrl;
-    }
+//    @Value("${ShiroAnonUrl}")
+//    String ShiroAnonUrl;
+//
+//    /**
+//     * 获取免认证接口 url
+//     */
+//    public String getShiroAnonUrl() {
+//        return ShiroAnonUrl;
+//    }
 }

@@ -1,6 +1,6 @@
 package com.example.demo.config;
 
-import com.example.demo.Model.HttpResponse;
+import com.example.demo.response.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -16,31 +16,28 @@ import java.io.IOException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-
-
-
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = IllegalArgumentException.class)
-    public HttpResponse handle(IllegalArgumentException e) {
-        return HttpResponse.error(e.getMessage());
+    public ResponseResult handle(IllegalArgumentException e) {
+        return ResponseResult.error(e.getMessage());
     }
     /**
      * @Validated 校验错误异常处理
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public HttpResponse handler(MethodArgumentNotValidException e) throws IOException {
+    public ResponseResult handler(MethodArgumentNotValidException e) throws IOException {
         log.error("运行时异常:-------------->",e);
         BindingResult bindingResult = e.getBindingResult();
         ObjectError objectError = bindingResult.getAllErrors().stream().findFirst().get();
-        return HttpResponse.error(objectError.getDefaultMessage());
+        return ResponseResult.error(objectError.getDefaultMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = RuntimeException.class)
-    public HttpResponse handler(RuntimeException e) throws IOException {
+    public ResponseResult handler(RuntimeException e) throws IOException {
         log.error("运行时异常:-------------->",e);
-        return HttpResponse.error(e.getMessage());
+        return ResponseResult.error(e.getMessage());
     }
 
 

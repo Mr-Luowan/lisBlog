@@ -1,22 +1,16 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.Model.HttpResponse;
+import com.example.demo.response.ResponseResult;
 import com.example.demo.Model.User;
 import com.example.demo.service.UserService;
-import com.example.demo.util.JwtUtils;
-import com.example.demo.util.SnowflakeIdWorker;
-import org.slf4j.Logger;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author lpf
@@ -30,62 +24,80 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @Autowired
-    JwtUtils jwtUtils;
+    /**
+     * 初始化管理员账号
+     */
+    @ApiOperation("初始化管理员账号")
+    @PostMapping("/admin_account")
+    public ResponseResult initManagerAccount(User user) {
+        return userService.initManagerAccount(user);
+    }
 
-    @Autowired
-    Logger logger;
+    @PostMapping("/register")
+    public ResponseResult register(User user) {
+        return userService.register(user);
+    }
 
-    @Autowired
-    SnowflakeIdWorker snowflakeIdWorker;
+    /**
+     * 登录
+     * @param captcha 验证码
+     */
+    @PostMapping("/{captcha}")
+    public ResponseResult login(@PathVariable("captcha") String captcha, User user) {
+        return userService.login(user);
+    }
 
-
-    @PostMapping
-    public HttpResponse register(User user) {
+    /**
+     * 获取验证码
+     */
+    @GetMapping("/captcha")
+    public ResponseResult getCaptcha() {
         return null;
     }
 
-
-    @PostMapping("/login")
-    public HttpResponse login(User user, HttpServletResponse httpServletResponse) {
-        User dbUser = userService.findUserByName(user.getUserName());
-        if (dbUser == null) {
-            logger.error(TAG + "没找到用户");
-            return HttpResponse.error("没找到用户");
-        }
-        if (!dbUser.getPassword().equals(user.getPassword())) {
-            logger.error(TAG + "密码错误");
-            return HttpResponse.error("密码错误");
-        }
-//        String jwt = jwtUtils.generateToken(dbUser.getId());
-//        httpServletResponse.setHeader("Authorization", jwt);
-//        httpServletResponse.setHeader("Access-control-Expose-Headers", "Authorization");
-        Map<String, Object> data = new HashMap<>(10);
-        data.put("roles", dbUser.getRoles());
-        data.put("id", dbUser.getId());
-        data.put("userName", dbUser.getUserName());
-        String token = jwtUtils.generateToken(data);
-        return HttpResponse.success(token);
+    /**
+     * 发送邮件
+     * @param emailAddress 邮件地址
+     */
+    @GetMapping("/verify_code")
+    public ResponseResult sendVerifyCode(@RequestParam("email") String emailAddress) {
+        return null;
     }
 
-    // 验证用户是否登录，等同于方法subject.isAuthenticated() 结果为true时
+    /**
+     * 修改密码
+     */
+    @PutMapping("/password")
+    public ResponseResult updatePassword(User user) {
+        return null;
+    }
+
+    /**
+     * 获取作者信息
+     */
+    @GetMapping("/{userId}")
+    public ResponseResult getUserInfo(@PathVariable("userId") String userId) {
+        return null;
+    }
+
+    /**
+     * 修改用户信息
+     */
+    @PutMapping
+    public ResponseResult updateUserInfo(User user) {
+        return null;
+    }
+
     @GetMapping("/logout")
-    public HttpResponse logout() {
-        return HttpResponse.success("退出成功");
+    public ResponseResult logout() {
+        return ResponseResult.success("退出成功");
     }
 
 
     @GetMapping("/{id}")
-    public HttpResponse deleteUser(@PathVariable("id") String userId) {
-        logger.info(TAG + "需要删除的用户Id   " + userId);
-        return HttpResponse.success("删除成功");
+    public ResponseResult deleteUser(@PathVariable("id") String userId) {
+        return ResponseResult.success("删除成功");
     }
-
-
-
-
-
-
 
 
 }

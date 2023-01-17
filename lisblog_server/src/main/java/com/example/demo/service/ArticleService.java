@@ -2,9 +2,7 @@ package com.example.demo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.demo.Model.Article;
-import com.example.demo.Model.HttpResponse;
-
-import java.util.List;
+import com.example.demo.response.ResponseResult;
 
 /**
  * <p>
@@ -16,5 +14,5 @@ import java.util.List;
  */
 public interface ArticleService extends IService<Article> {
 
-    HttpResponse addNewArticle(Article article);
+    ResponseResult addNewArticle(Article article);
 }
