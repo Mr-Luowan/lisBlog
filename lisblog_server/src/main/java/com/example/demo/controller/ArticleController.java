@@ -35,20 +35,10 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")
-    public HttpResponse listArticle(@RequestParam("page") int page, @RequestParam("size") int size) {
+    public HttpResponse listArticle(@RequestParam("pageNum") int page, @RequestParam("pageSize") int size) {
         PageHelper.startPage(page, size);
         List<Article> articles = articleService.list();
         PageInfo<Article> articleResult = new PageInfo<>(articles);
-//        List<Article> newList = new ArrayList<>(articles);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
         return HttpResponse.success(articleResult.getList());
     }
 

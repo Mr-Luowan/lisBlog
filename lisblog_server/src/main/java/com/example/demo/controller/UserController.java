@@ -4,7 +4,6 @@ package com.example.demo.controller;
 import com.example.demo.Model.HttpResponse;
 import com.example.demo.Model.User;
 import com.example.demo.service.UserService;
-import com.example.demo.shiro.JwtToken;
 import com.example.demo.util.JwtUtils;
 import com.example.demo.util.SnowflakeIdWorker;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -66,9 +65,7 @@ public class UserController {
         data.put("roles", dbUser.getRoles());
         data.put("id", dbUser.getId());
         data.put("userName", dbUser.getUserName());
-        String token = jwtUtils.generateToken(data);
-        JwtToken jwtToken = new JwtToken(token);
-        return HttpResponse.success(token);
+        return HttpResponse.success();
     }
 
     // 验证用户是否登录，等同于方法subject.isAuthenticated() 结果为true时
