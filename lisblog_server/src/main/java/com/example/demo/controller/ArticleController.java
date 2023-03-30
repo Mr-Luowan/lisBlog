@@ -35,7 +35,7 @@ public class ArticleController {
 
 
     @PostMapping("/add")
-    public ResponseResult addNewArticle(Article article) {
+    public ResponseResult addNewArticle(@RequestBody Article article) {
         return articleService.addNewArticle(article);
     }
 

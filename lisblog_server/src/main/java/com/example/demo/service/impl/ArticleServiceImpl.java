@@ -33,7 +33,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             return ResponseResult.error("用户ID不可为空");
         }
         article.setUpdateTime(LocalDateTime.now());
-        article.setCreateTime(LocalDateTime.now());
+        LocalDateTime createTime = article.getCreateTime();
+        if (createTime == null) {
+            article.setCreateTime(LocalDateTime.now());
+        }
+        article.setState("0");
+        article.setType("1");
+        article.setSummary("摘要");
+        article.setLabels("标签");
         article.setId(String.valueOf(idWorker.nextId()));
         baseMapper.insert(article);
         return ResponseResult.success("上传成功");
