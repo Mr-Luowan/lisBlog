@@ -4,7 +4,7 @@
     <div>
         <Header></Header>
     </div>
-    <div class="">
+    <div class="outer">
         <div class="">
             <div class="article_list_container" v-for="(article, index) in articles" :key="index">
                 <div class="article_item">
@@ -52,6 +52,10 @@ import Header from '../components/Header.vue'
 </script>
 
 <style>
+    .outer {
+        padding-bottom: 80px;
+    }
+
     .article_list_container {
         /* 上右下左 */
         /* margin: 50px, 10%, 0px,  10%; */
@@ -62,7 +66,7 @@ import Header from '../components/Header.vue'
         width: 1080px;
         height: 310px;
         margin-top: 35px;
-        background-color: rgb(193, 29, 20);
         border-radius: 10px;
+        box-shadow: 0 3px 8px 6px rgba(7,17,27,0.05);
     }
 </style>
