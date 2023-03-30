@@ -78,6 +78,10 @@ public class Article implements Serializable {
      * 标签
      */
     private String labels;
+    /**
+     * 封面
+     */
+    private String cover;
 
     /**
      * 阅读数量

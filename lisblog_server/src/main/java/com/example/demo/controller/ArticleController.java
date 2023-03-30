@@ -44,16 +44,6 @@ public class ArticleController {
         PageHelper.startPage(pageNum, pageSize);
         List<Article> articles = articleService.list();
         PageInfo<Article> articleResult = new PageInfo<>(articles);
-//        List<Article> newList = new ArrayList<>(articles);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
-//        articles.addAll(newList);
         return ResponseResult.success(articleResult.getList());
     }
 

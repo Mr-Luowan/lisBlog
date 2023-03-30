@@ -17,7 +17,7 @@ http.interceptors.response.use(
     response => {
     const res = response.data;
     console.log("后置拦截")
-    if(res.status == 200) {
+    if(res.code == 200) {
         return response;
     } else {
         console.log('res.code != 200  ' , res)

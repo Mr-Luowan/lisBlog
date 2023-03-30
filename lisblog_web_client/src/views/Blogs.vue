@@ -8,7 +8,7 @@
         <div class="">
             <div class="article_list_container" v-for="(article, index) in articles" :key="index">
                 <div class="article_item">
-                    <span>{{ article.title }}</span>
+                    <span @click="goDetail(article.id)">{{ article.title }}</span>
                 </div>
             </div>
         </div>
@@ -31,13 +31,16 @@ import Header from '../components/Header.vue'
         methods: {
             page(currentPage) {
                 const _this = this
-                this.$axios.get('/api/article/articles?currentPage=' + currentPage)
+                this.$axios.get('/api/article/articles?pageNum=' + currentPage + '&pageSize=3')
                 .then((res) => {
                     _this.articles = res.data.data
-                    // for(var index in _this.articles) {
-                    //     console.log('单篇文章结果  ',  _this.articles[index])
-                    // }
+                    for(var index in _this.articles) {
+                        console.log('单篇文章结果  ',  _this.articles[index])
+                    }
                 })
+            },
+            goDetail(blogId) {
+                this.$router.push({ name: 'BlogDetail', params: {'blogId': blogId} })
             }
         },
         mounted () {

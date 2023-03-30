@@ -6,14 +6,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class UofferProperties {
 
+    @Value("${custom_prop}")
+    String customProp;
 
-//    @Value("${ShiroAnonUrl}")
-//    String ShiroAnonUrl;
-//
-//    /**
-//     * 获取免认证接口 url
-//     */
-//    public String getShiroAnonUrl() {
-//        return ShiroAnonUrl;
-//    }
+    public String getCustomProp() {
+        return customProp;
+    }
 }

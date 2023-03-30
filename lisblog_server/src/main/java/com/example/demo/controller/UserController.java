@@ -8,6 +8,10 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * <p>
  * 前端控制器
@@ -86,6 +90,22 @@ public class UserController {
     @PutMapping
     public ResponseResult updateUserInfo(User user) {
         return null;
+    }
+
+    @PostMapping("/login")
+    public ResponseResult login(User user, HttpServletResponse httpServletResponse) {
+        User dbUser = userService.findUserByName(user.getUserName());
+        if (dbUser == null) {
+            return ResponseResult.error("没找到用户");
+        }
+        if (!dbUser.getPassword().equals(user.getPassword())) {
+            return ResponseResult.error("密码错误");
+        }
+        Map<String, Object> data = new HashMap<>(10);
+        data.put("roles", dbUser.getRoles());
+        data.put("id", dbUser.getId());
+        data.put("userName", dbUser.getUserName());
+        return ResponseResult.success();
     }
 
     @GetMapping("/logout")
