@@ -1,25 +1,29 @@
 <template>
-    <div class="m-content">
-        <div class="block">
-            <el-avatar :size="50" :src="user.avatar"></el-avatar>
-            <div>{{ user.userName }}</div>
-        </div>
-
-        <div class="maction">
-            <el-link href="/blogs">主页</el-link>
-            <el-divider direction="vertical"></el-divider>
-            <span>
-                <el-link type="success" href="/blog/add" :disabled="!hasLogin">发表文章</el-link>
-            </span>
-            <el-divider direction="vertical"></el-divider>
-            <span v-show="!hasLogin">
-                <el-link type="primary" href="/login">登录</el-link>
-            </span>
-            <span v-show="!hasLogin">
-                <el-link type="danger" @click="logout">退出</el-link>
-            </span>
+    <div class="full_page">
+        <div class="m-content">
+            <div>
+                <span class="title">Mr Lee博客</span>
+            </div>
+        
+            <div class="maction">
+                <el-link href="/blogs">主页</el-link>
+                <span>
+                    <el-link type="success" href="/blog/add" :disabled="!hasLogin">发表文章</el-link>
+                </span>
+                <span v-show="!hasLogin">
+                    <el-link type="primary" href="/login">登录</el-link>
+                </span>
+                <span v-show="hasLogin">
+                    <el-link type="danger" @click="logout">退出</el-link>
+                </span>
+                <div>
+                    <el-avatar :size="50" :src="user.avatar"></el-avatar>
+                    <div>{{ user.userName }}</div>
+                </div>
+            </div>
         </div>
     </div>
+    
 </template>
 
 <script>
@@ -63,12 +67,28 @@
 </script>
 
 <style scoped>
+    .full_page {
+        height: 100vh;
+        background: no-repeat url('https://mr-luowan.github.io/img/whale.webp');
+        background-size:100% 100%;
+        background-attachment:fixed;
+        background-position: center;
+    }
     .m-content {
-        width: 100%;
-        margin-top: 10px;
-        text-align: center;
+        display: flex;
+        width: 90%;
+        margin: auto;
+        height: 70px;
+        align-items: center;
+        justify-content: space-between;
     }
     .maction {
-        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+    .title {
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
     }
 </style>

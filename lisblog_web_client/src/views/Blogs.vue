@@ -8,6 +8,7 @@
         <div class="">
             <div class="article_list_container" v-for="(article, index) in articles" :key="index">
                 <div class="article_item">
+                    <img class="artile_cover" :src="article.cover" alt="cover">
                     <span @click="goDetail(article.id)">{{ article.title }}</span>
                 </div>
             </div>
@@ -41,10 +42,13 @@ import Header from '../components/Header.vue'
             },
             goDetail(blogId) {
                 this.$router.push({ name: 'BlogDetail', params: {'blogId': blogId} })
+            },
+            addMouseListener() {
             }
         },
         mounted () {
             this.page(1);
+            this.addMouseListener();
         }
 
     }
@@ -68,5 +72,12 @@ import Header from '../components/Header.vue'
         margin-top: 35px;
         border-radius: 10px;
         box-shadow: 0 3px 8px 6px rgba(7,17,27,0.05);
+    }
+    .artile_cover {
+        width: 360px;
+        height: 310px;
+        object-fit: cover;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
     }
 </style>
