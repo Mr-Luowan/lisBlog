@@ -6,9 +6,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import javax.swing.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * <p>
@@ -85,6 +90,8 @@ public class User implements Serializable {
      * 更新时间
      */
     private LocalDateTime updateTime;
+
+    private transient Collection<SimpleGrantedAuthority> authorities;
 
 
     public String getId() {
@@ -181,5 +188,22 @@ public class User implements Serializable {
 
     public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Collection<SimpleGrantedAuthority> getAuthorities() {
+        if (authorities == null) {
+            authorities = new ArrayList<>();
+        }
+        if (this.roles.equals("2")) {
+            authorities.add(new SimpleGrantedAuthority("GUEST"));
+            authorities.add(new SimpleGrantedAuthority("ADMIN"));
+        } else if (this.roles.equals("1")) {
+            authorities.add(new SimpleGrantedAuthority("GUEST"));
+        }
+        return authorities;
+    }
+
+    public void setAuthorities(Collection<SimpleGrantedAuthority> authorities) {
+        this.authorities = authorities;
     }
 }

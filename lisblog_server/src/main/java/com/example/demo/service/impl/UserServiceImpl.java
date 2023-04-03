@@ -9,6 +9,7 @@ import com.example.demo.util.JwtUtils;
 import com.example.demo.util.SnowflakeIdWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -32,6 +33,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     SnowflakeIdWorker snowflakeIdWorker;
 
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
     @Override
     public ResponseResult initManagerAccount(User user) {
         log.error("初始化管理员账户");
@@ -50,15 +53,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             log.error("没找到用户");
             return ResponseResult.error("没找到用户");
         }
-        if (!dbUser.getPassword().equals(user.getPassword())) {
+        if (!bCryptPasswordEncoder.matches(user.getPassword(), dbUser.getPassword())) {
             log.error("密码错误");
+            log.error("接口密码" + bCryptPasswordEncoder.encode(user.getPassword()));
+            log.error("数据库密码"  + dbUser.getPassword());
+            log.error("是否一致"  + (bCryptPasswordEncoder.encode(user.getPassword()).matches(dbUser.getPassword())));
+
             return ResponseResult.error("密码错误");
         }
-        Map<String, Object> data = new HashMap<>(10);
-        data.put("roles", dbUser.getRoles());
-        data.put("id", dbUser.getId());
-        data.put("userName", dbUser.getUserName());
-        String token = jwtUtils.generateToken(data);
+//        Map<String, Object> data = new HashMap<>(10);
+//        data.put("roles", dbUser.getRoles());
+//        data.put("id", dbUser.getId());
+//        data.put("userName", dbUser.getUserName());
+        String token = jwtUtils.generateToken(dbUser);
         return ResponseResult.success(token);
     }
 

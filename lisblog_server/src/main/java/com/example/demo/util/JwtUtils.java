@@ -5,6 +5,7 @@ import com.example.demo.Model.User;
 import io.jsonwebtoken.*;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -18,11 +19,14 @@ import java.util.Map;
 @Slf4j
 @Data
 @Component
-@ConfigurationProperties("jwt.config")
 public class JwtUtils {
 
+
+    @Value("${jwtTokenSecret}")
     private String key;
+
     /** 过期时间 ms */
+    @Value("${tokenExpiredMs}")
     private long ttl;
     /**
      * 生成jwt
@@ -67,7 +71,8 @@ public class JwtUtils {
         String username;
         try {
             Claims claims = getClaimsFromToken(token);
-            username = claims.getSubject();
+//            username = claims.getSubject();
+            username = claims.get("CLAIM_KEY_USERNAME", String.class);
         } catch (Exception e) {
             username = null;
         }
@@ -101,15 +106,15 @@ public class JwtUtils {
         return claims.getExpiration();
     }
 
-//    /**
-//     * 根据用户信息生成token
-//     */
-//    public String generateToken(User userDetails) {
-//        Map<String, Object> claims = new HashMap<>();
-//        claims.put("CLAIM_KEY_USERNAME", userDetails.getUserName());
-//        claims.put("CLAIM_KEY_CREATED", new Date());
-//        return generateToken(claims);
-//    }
+    /**
+     * 根据用户信息生成token
+     */
+    public String generateToken(User userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("CLAIM_KEY_USERNAME", userDetails.getUserName());
+        claims.put("CLAIM_KEY_CREATED", new Date());
+        return generateToken(claims);
+    }
 
     /**
      * 判断token是否可以被刷新

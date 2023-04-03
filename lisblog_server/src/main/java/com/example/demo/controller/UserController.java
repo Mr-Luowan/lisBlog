@@ -1,9 +1,11 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.config.interceptor.JwtAuthenticationFilter;
 import com.example.demo.response.ResponseResult;
 import com.example.demo.Model.User;
 import com.example.demo.service.UserService;
+import com.example.demo.util.JwtUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +25,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private static final String TAG = "UserController   ";
+    private static final String TAG = "UserController";
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    JwtUtils jwtUtils;
 
     /**
      * 初始化管理员账号
@@ -93,19 +98,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseResult login(User user, HttpServletResponse httpServletResponse) {
-        User dbUser = userService.findUserByName(user.getUserName());
-        if (dbUser == null) {
-            return ResponseResult.error("没找到用户");
-        }
-        if (!dbUser.getPassword().equals(user.getPassword())) {
-            return ResponseResult.error("密码错误");
-        }
-        Map<String, Object> data = new HashMap<>(10);
-        data.put("roles", dbUser.getRoles());
-        data.put("id", dbUser.getId());
-        data.put("userName", dbUser.getUserName());
-        return ResponseResult.success();
+    public ResponseResult login(@RequestBody User user) {
+        return userService.login(user);
     }
 
     @GetMapping("/logout")
