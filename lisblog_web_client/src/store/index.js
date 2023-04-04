@@ -8,6 +8,7 @@ export default createStore({
     mutations: {
         SET_TOKEN: (state, token) => {
             state.token = token
+            console.log("存储token", token)
             localStorage.setItem('token', token)
         },
         SET_USERINFO: (state, userInfo) => {
@@ -23,6 +24,9 @@ export default createStore({
     getters: {
         getUser: state => {
             return state.userInfo
+        },
+        getToken(state) {
+            return localStorage.getItem('token')
         }
     },
     actions: {},

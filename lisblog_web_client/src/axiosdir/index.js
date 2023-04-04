@@ -9,7 +9,15 @@ const http = axios.create({
 })
 
 http.interceptors.request.use(config => {
-    console.log("前置拦截")
+    let needToken = (config.headers || {}).isToken;
+    if(needToken) {
+        console.log("需要token ")
+    } else {
+        console.log("不需要token " )
+    }
+    if (store.getters.getToken && needToken) {
+        config.headers['token'] = store.getters.getToken // 让每个请求携带自定义token 请根据实际情况自行修改
+    }
     return config
 })
 

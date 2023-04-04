@@ -9,11 +9,11 @@
         <version>2.2.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.example</groupId>
-    <artifactId>demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>demo</name>
-    <description>Demo project for Spring Boot</description>
+    <groupId>com.lis</groupId>
+    <artifactId>blog</artifactId>
+    <version>0.0.1</version>
+    <name>lisblog</name>
+    <description>personal blog project</description>
 
     <properties>
     </properties>

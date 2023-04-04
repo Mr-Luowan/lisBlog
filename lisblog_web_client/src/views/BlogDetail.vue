@@ -12,6 +12,7 @@
 
 <script>
     import Vditor from 'vditor'
+    import http from '../axiosdir'
     import 'vditor/dist/index.css'
     export default {
         props: ['blogId'],
@@ -23,8 +24,15 @@
         methods: {
             getArticleDetail(articleID) {
                 const _this = this;
-                this.$axios.get('/api/article/' + articleID)
-                .then((res) => {
+                http(
+                    {
+                        url:'/api/article/' + articleID,
+                        headers: {
+                            isToken: true
+                        },
+                        method: "get"
+                    }
+                ).then((res) => {
                     _this.currentArticle = res.data.data
                     _this.renderMarkdown(_this.currentArticle.content)
                     console.log(_this.currentArticle)

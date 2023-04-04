@@ -69,11 +69,9 @@ export default {
                 if(valid) {
                     this.$axios.post("/api/user/login", this.form)
                     .then((res) => {
+                        const token = res.data.data
                         console.log("返回结果", res)
-                        if(res.state != 200) {
-                            return;
-                        }
-                        const token = res.headers['authorization']
+                        console.log("Token内容", token)
                         _this.$store.commit('SET_TOKEN', token)
                         _this.$store.commit('SET_USERINFO', res.data)
                         _this.$router.push('/blogs')
