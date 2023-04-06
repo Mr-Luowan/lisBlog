@@ -25,6 +25,7 @@
     import Vditor from 'vditor'
     import 'vditor/dist/index.css'
     import { ElMessage } from 'element-plus'
+    import http from '../axiosdir'
     export default {
         data() {
             return {
@@ -46,7 +47,15 @@
                 this.edit_article.userId = "1"
                 this.edit_article.categoryId = "1"
                 console.log("提交文章 ",this.edit_article)
-                this.$axios.post('/api/article/add', this.edit_article)
+                http({
+                    url:'/api/article/add',
+                    headers: {
+                        isToken: true
+                    },
+                    method: 'post',
+                    data:  this.edit_article,
+
+                })
                 .then((res) => {
                     this.$router.push("/blogs")
                     ElMessage.success("提交成功")

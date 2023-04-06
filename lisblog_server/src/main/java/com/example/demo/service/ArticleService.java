@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.demo.Model.Article;
 import com.example.demo.response.ResponseResult;
 
+import java.util.Map;
+
 /**
  * <p>
  *  服务类
@@ -15,4 +17,6 @@ import com.example.demo.response.ResponseResult;
 public interface ArticleService extends IService<Article> {
 
     ResponseResult addNewArticle(Article article);
+
+    ResponseResult findByPaging(int pageNum, int pageSize);
 }

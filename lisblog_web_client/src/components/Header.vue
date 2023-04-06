@@ -9,7 +9,7 @@
             <div class="maction">
                 <el-link href="/blogs">主页</el-link>
                 <span>
-                    <el-link type="success" href="/blog/add" :disabled="!hasLogin">发表文章</el-link>
+                    <el-link type="success" href="/blog/add" :disabled="hasLogin">发表文章</el-link>
                 </span>
                 <span v-show="!hasLogin">
                     <el-link type="primary" href="/login">登录</el-link>
@@ -103,7 +103,6 @@
 <style scoped>
  
     .full_page {
-        background-color: aqua;
         flex-direction: column;
         display: flex;
         align-items: center;
@@ -114,10 +113,6 @@
         background-attachment:fixed;
         background-position: center;
         background-clip: padding-box;
-        transition: all 2.5s ease-in-out;
-    }
-    .full_page:hover {
-        background-size: 150% 150%;
     }
     .m-content {
         display: flex;
@@ -142,31 +137,6 @@
         line-height: 3;
         text-align: center;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
-        animation-duration: 1.5s;
-        animation-timing-function: ease;
-        animation-delay: 0s;
-        animation-iteration-count: infinite;
-        animation-direction: normal;
-        animation-fill-mode: none;
-        animation-play-state: running;
-        animation-name: "fall_down";
-    }
-    @keyframes fall_down {
-        from {
-            margin-left:100%;
-            width:300%
-        }
-        
-        75% {
-            font-size:300%;
-            margin-left:25%;
-            width:150%;
-        }
-        
-        to {
-            margin-left:0%;
-            width:100%;
-        }
     }
 
     /* CDN 服务仅供平台体验和调试使用，平台不承诺服务的稳定性，企业客户需下载字体包自行发布使用并做好备份。 */

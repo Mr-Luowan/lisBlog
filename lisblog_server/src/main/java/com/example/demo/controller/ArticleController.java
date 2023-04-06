@@ -28,7 +28,7 @@ public class ArticleController {
 
 
     @GetMapping("/{id}")
-    public ResponseResult getArticleById(@PathVariable("id") int id) {
+    public ResponseResult getArticleById(@PathVariable("id") String id) {
         Article articleById = articleService.getById(id);
         return ResponseResult.success(articleById);
     }
@@ -41,10 +41,7 @@ public class ArticleController {
 
     @GetMapping("/articles")
     public ResponseResult listArticle(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<Article> articles = articleService.list();
-        PageInfo<Article> articleResult = new PageInfo<>(articles);
-        return ResponseResult.success(articleResult.getList());
+        return articleService.findByPaging(pageNum, pageSize);
     }
 
 }

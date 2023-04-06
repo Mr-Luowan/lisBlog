@@ -45,11 +45,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
                 // 设置 OPTIONS 尝试请求直接通过
-                .antMatchers("/article/*").hasAnyAuthority("ADMIN")
-                // 注意使用 hasAnyAuthority 角色需要以 ROLE_ 开头
-                .antMatchers("/api/demo/admin").hasAnyAuthority("ROLE_admin")
-                .antMatchers("/user/login").permitAll()
-                .anyRequest().authenticated()
+//                .antMatchers("/article/*").hasAnyAuthority("ADMIN")
+//                // 注意使用 hasAnyAuthority 角色需要以 ROLE_ 开头
+//                .antMatchers("/api/demo/admin").hasAnyAuthority("ROLE_admin")
+//                .antMatchers("/user/login").permitAll()
+//                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 // 开启注销
                 .logout().permitAll();

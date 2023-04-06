@@ -22,7 +22,8 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    String token_header = "token";
+    private String token_header = "token";
+
     @Autowired
     JwtUtils jwtUtils;
 
