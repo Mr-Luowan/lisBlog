@@ -5,6 +5,7 @@ import com.example.demo.response.ResponseResult;
 import com.example.demo.Model.Images;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface ImagesService extends IService<Images> {
 
-    ResponseResult uploadImage(MultipartFile file);
+    ResponseResult uploadImage(HttpServletRequest request, MultipartFile file);
 
-    ResponseResult getImage(HttpServletResponse response, String imageId);
+    void getImage(HttpServletResponse response, String imageId);
 }

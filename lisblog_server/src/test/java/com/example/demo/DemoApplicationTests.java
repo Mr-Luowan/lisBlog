@@ -9,6 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DemoApplicationTests {
@@ -16,6 +20,11 @@ public class DemoApplicationTests {
     @Autowired
     JwtUtils jwtUtils;
 
+    @Test
+    public void testDate() {
+        String replace = LocalDate.now().toString().replace("-", "");
+        System.out.println(replace);
+    }
 
     @Test
     public void generatePwd() {

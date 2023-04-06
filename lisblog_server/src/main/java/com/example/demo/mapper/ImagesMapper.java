@@ -2,6 +2,8 @@ package com.example.demo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.demo.Model.Images;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * <p>
@@ -13,4 +15,6 @@ import com.example.demo.Model.Images;
  */
 public interface ImagesMapper extends BaseMapper<Images> {
 
+    @Select("select * from `tb_images` where `real_path` = #{realPath}")
+    Images findByRealPath(@Param("realPath") String realPath);
 }

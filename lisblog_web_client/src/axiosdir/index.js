@@ -11,7 +11,7 @@ const http = axios.create({
 http.interceptors.request.use(config => {
     let needToken = (config.headers || {}).isToken;
     if(needToken) {
-        console.log("需要token ")
+        console.log("需要token ", store.getters.getToken)
     } else {
         console.log("不需要token " )
     }

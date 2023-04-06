@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -33,12 +34,12 @@ public class ImagesController {
      * ID | 存储路径 | url | 源名称 | 创建日期 | 状态
      */
     @PostMapping("/upload")
-    public ResponseResult uploadImage(@RequestParam("file") MultipartFile file) {
-        return imagesService.uploadImage(file);
+    public ResponseResult uploadImage(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+        return imagesService.uploadImage(request, file);
     }
 
     @GetMapping("/{imageId}")
-    public ResponseResult getImage(HttpServletResponse response, @PathVariable("imageId") String imageId) {
-        return imagesService.getImage(response,imageId);
+    public void getImage(HttpServletResponse response, @PathVariable("imageId") String imageId) {
+        imagesService.getImage(response,imageId);
     }
 }

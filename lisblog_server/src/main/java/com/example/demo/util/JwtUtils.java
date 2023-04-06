@@ -78,6 +78,17 @@ public class JwtUtils {
         }
         return username;
     }
+    public String getUserIdFromToken(String token) {
+        String username;
+        try {
+            Claims claims = getClaimsFromToken(token);
+//            username = claims.getSubject();
+            username = claims.get("CLAIM_KEY_USE_ID", String.class);
+        } catch (Exception e) {
+            username = null;
+        }
+        return username;
+    }
 
     /**
      * 验证token是否还有效
@@ -112,6 +123,7 @@ public class JwtUtils {
     public String generateToken(User userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("CLAIM_KEY_USERNAME", userDetails.getUserName());
+        claims.put("CLAIM_KEY_USE_ID", userDetails.getId());
         claims.put("CLAIM_KEY_CREATED", new Date());
         return generateToken(claims);
     }

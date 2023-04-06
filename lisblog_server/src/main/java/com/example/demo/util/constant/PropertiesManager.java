@@ -4,7 +4,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UofferProperties {
+public class PropertiesManager {
+
+
+    @Value("${file.saveFilePath}")
+    public  String saveFilePath;
+
+    @Value("${file.staticAccessPath}")
+    public String staticAccessPath;
 
     @Value("${custom_prop}")
     String customProp;
@@ -25,5 +32,13 @@ public class UofferProperties {
 
     public long getTokenExpiredMs() {
         return tokenExpiredMs;
+    }
+
+    public String getSaveFilePath() {
+        return saveFilePath;
+    }
+
+    public String getStaticAccessPath() {
+        return staticAccessPath;
     }
 }

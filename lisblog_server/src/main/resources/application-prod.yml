@@ -1,0 +1,26 @@
+spring:
+  servlet:
+    multipart:
+      max-request-size: 1000MB
+      max-file-size: 20MB
+  datasource:
+    url: jdbc:mysql://192.168.100.191:3306/blog_system?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: admin
+  redis:
+    host: 192.168.100.191
+    port: 6379
+
+file:
+  location: E:/springbootproject/lisBlog/images/
+
+custom_prop: /user/login,/user/register
+
+jwtTokenSecret: admin
+tokenExpiredMs: 604800000
+
+page helper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true

@@ -61,10 +61,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
             return ResponseResult.error("密码错误");
         }
-//        Map<String, Object> data = new HashMap<>(10);
-//        data.put("roles", dbUser.getRoles());
-//        data.put("id", dbUser.getId());
-//        data.put("userName", dbUser.getUserName());
         String token = jwtUtils.generateToken(dbUser);
         return ResponseResult.success(token);
     }

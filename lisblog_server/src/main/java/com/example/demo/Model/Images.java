@@ -54,5 +54,8 @@ public class Images implements Serializable {
      */
     private LocalDateTime updateTime;
 
+    private String name;
+    private String realPath;
+
 
 }
