@@ -1,47 +1,49 @@
 <!-- 登录页面 -->
 
 <template>
-    <div class="all">
-        <el-container>
-            <el-header>
+    <div class="bg">
+        <div class="info_card">
+            <div>
                 <router-link to="/blogs">
-                    <img class="logo" 
-                        src="http://localhost:8080/upload/1/20230406/cat-g35d22bf2a_640.jpg" alt="logo">
-                </router-link>
-            </el-header>
-        </el-container>
-        <el-main>
-            <el-form class="login_form" :model="form" status-icon :rules="rules" ref="login_form" label-width="100px">
-                <el-form-item class="t-el-input" label="用户名" prop="userName">
-                    <el-input type="text" maxlength="12" v-model="form.userName"></el-input>
-                </el-form-item>
-                <el-form-item class="t-el-input" label="密码" prop="password">
-                    <el-input type="password" v-model="form.password" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="submitForm('login_form')">
-                        登录
-                    </el-button>
-                    
-                    <el-button type="primary" @click="resetForm('login_form')">
-                        重置
-                    </el-button>
-                </el-form-item>
-            </el-form>
+                        <img class="logo" 
+                            src="http://localhost:8080/upload/1/20230406/cat-g35d22bf2a_640.jpg" alt="logo">
+                    </router-link>
+            </div>
+            <div class="login_form_c">
+                <el-form class="login_form" :model="form" status-icon :rules="rules" ref="login_form" label-width="65px">
+                    <el-form-item class="t-el-input" label="用户名" prop="userName">
+                        <el-input type="text" maxlength="12" v-model="form.userName"></el-input>
+                    </el-form-item>
+                    <el-form-item class="t-el-input" label="密码" prop="password">
+                        <el-input type="password" v-model="form.password" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="submitForm('login_form')">
+                            登录
+                        </el-button>
+                        
+                        <el-button type="primary" @click="resetForm('login_form')">
+                            重置
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+                
 
-            <el-upload action="/api/images/upload" list-type="picture-card" name="file"
-              :headers="headerObj"
-              accept="image/jpeg,image/png,image/jpg" :on-preview="handlePictureCardPreview" :on-remove="handleRemove"
-              :on-success="handleimg">
-              <el-icon>
-                <Plus />
-              </el-icon>
-              <span>只能上传jpg/png/jpeg文件，且单个不超过2M</span>
-            </el-upload>
-            <el-dialog v-model="dialogVisible">
-              <img w-full :src="imageUrl" alt="Preview Image" />
-            </el-dialog>
-        </el-main>
+                <!-- <el-upload action="/api/images/upload" list-type="picture-card" name="file"
+                :headers="headerObj"
+                    accept="image/jpeg,image/png,image/jpg" :on-preview="handlePictureCardPreview" :on-remove="handleRemove"
+                    :on-success="handleimg">
+                    <el-icon>
+                        <Plus />
+                    </el-icon>
+                    <span>只能上传jpg/png/jpeg文件，且单个不超过2M</span>
+                </el-upload>
+                <el-dialog v-model="dialogVisible">
+                    <img w-full :src="imageUrl" alt="Preview Image" />
+                </el-dialog> -->
+        </div>
+        
     </div>
 </template>
 
@@ -86,6 +88,7 @@ export default {
             const _this = this
             this.$refs[form_name].validate((valid) => {
                 if(valid) {
+                    console.log("发送登录请求 ")
                     this.$axios.post("/api/user/login", this.form)
                     .then((res) => {
                         const token = res.data.data
@@ -153,15 +156,33 @@ export default {
 </script>
 
 <style scoped>
+    .info_card {
+        height: 400px;
+        width: 759px;
+        border-radius: 16px;
+        padding: 20px;
+        background-color: white;
+        margin-top: 150px;
+    }
+    .login_form_c {
+        margin-top: 20px;
+    }
     .logo {
-        height: 100%;
-        width: 200px;
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
         margin-top: 10px;
+        margin-left: 110px;
     }
     .t-el-input {
-        width: 600px;
+        width: 300px;
     }
-    .all {
+    .bg {
+        width: 100%;
+        height: 100%;
+        background-image: url('/sunset.jpg');
+        display: flex;
+        justify-content: center;
     }
 </style>
 
