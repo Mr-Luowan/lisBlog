@@ -6,6 +6,7 @@ import 'element-plus/dist/index.css'
 import './assets/index.css'
 import http from './axiosdir/index.js'
 import state from './store/index.js'
+import './css/index.css'
 
 const app = createApp(App)
 

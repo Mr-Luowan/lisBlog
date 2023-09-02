@@ -7,7 +7,7 @@
                 <router-link to="/blogs">
                         <img class="logo" 
                             src="http://localhost:8080/upload/1/20230406/cat-g35d22bf2a_640.jpg" alt="logo">
-                    </router-link>
+                </router-link>
             </div>
             <div class="login_form_c">
                 <el-form class="login_form" :model="form" status-icon :rules="rules" ref="login_form" label-width="65px">
@@ -88,11 +88,10 @@ export default {
             const _this = this
             this.$refs[form_name].validate((valid) => {
                 if(valid) {
-                    console.log("发送登录请求 ")
                     this.$axios.post("/api/user/login", this.form)
                     .then((res) => {
                         const token = res.data.data
-                        console.log("返回结果 ", res)
+                        console.log("返回结果 用户token ", res.data.data)
                         _this.$store.commit('SET_TOKEN', token)
                         _this.$store.commit('SET_USERINFO', res.data)
                         _this.$router.push('/blogs')

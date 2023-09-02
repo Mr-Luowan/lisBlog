@@ -104,6 +104,7 @@ public class UserController {
 
     @GetMapping("/logout")
     public ResponseResult logout() {
+        System.out.println("退出登录");
         return ResponseResult.success("退出成功");
     }
 

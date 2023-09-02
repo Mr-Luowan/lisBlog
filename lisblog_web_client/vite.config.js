@@ -11,7 +11,7 @@ export default defineConfig({
   //新手最容易出现的问题就是localhost:3000去请求localhost:8080，那么在target处应该填写8080.
   //最后，在实际请求方法中，你可以写成如下代码  axois.post('/api/xxx', data)
   server: {
-    host: '127.0.0.1',
+    host: '0.0.0.0',
     port: 5173,
     proxy: {
       '/api': {

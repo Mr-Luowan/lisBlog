@@ -1,9 +1,13 @@
 <!-- 博客列表 -->
 
 <template>
-    <div>
+    <div class="full_page">
+        <img class="header_bg" src="https://mr-luowan.github.io/img/whale.webp" alt="">
+    </div>
+    <div class="header">
         <Header></Header>
     </div>
+
     <div class="outer">
         <div class="main_container">
             <div class="article_con" v-for="(article, index) in articles" :key="index">
@@ -28,9 +32,26 @@
         </div>
         
         <div class="user_card">
-            <span>test</span>
+            <img class="avatar" src="../assets/img/avatar.jfif" alt="">
+            <span class="author_name" v-text="author"></span>
+            <div class="signal_info" v-text="signal"></div>
+            <div class="article_count_info">
+                <div class="label_info">文章</div>
+                <div class="label_info">标签</div>
+                <div class="label_info">分类</div>
+                <div class="label_info" v-text="articles.length"></div>
+                <div class="label_info">5</div>
+                <div class="label_info">4</div>
+            </div>
+            <div class="outer_link" @click="goAuthorLink">
+                <i class="far fa-user"></i>
+                <span>&nbsp;&nbsp;作者github</span>
+            </div>
         </div>
     </div>
+        <div v-if="btnFlag" class="go-top" @click="backTop">
+            <img class="back_png" src="..\assets\img\go_top.png" alt="">
+        </div>
 </template>
 
 <script>
@@ -44,7 +65,11 @@
                 articles: {},
                 currentPage: 1,
                 total: 0,
-                pageSize: 3
+                pageSize: 3,
+                btnFlag: false,
+                scrollTop: 0,
+                author: "Mr_Lee",
+                signal: "这个地方是个性签名,这个地方是个性签名."
             }
         },
         methods: {
@@ -90,11 +115,42 @@
                 this.$router.push({ name: 'BlogDetail', params: {'blogId': blogId} })
             },
             addMouseListener() {
+            },
+            backTop() {
+                const _this = this;
+                let timer = setInterval(()=> {
+                    let ispeed = Math.floor(-_this.scrollTop / 5);
+                    document.documentElement.scrollTop = document.body.scrollTop = _this.scrollTop + ispeed;
+                    if (_this.scrollTop === 0)
+                    {
+                        clearInterval(timer);
+                    }
+                }, 16);
+            },
+            scrollToTop() {
+                const _this = this;
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+                _this.scrollTop = scrollTop;
+                if (_this.scrollTop > 0)
+                {
+                    _this.btnFlag = true;
+                } else {
+                    _this.btnFlag = false;
+                }
+            },
+            goAuthorLink () {
+                // var nativeRet = window.jsBridge.jsCallAndroidMethod();
+                // console.log("来自安卓的回复 = ", nativeRet.age)
+                window.open("https://github.com/Mr-Luowan", "_blank");
             }
         },
         mounted () {
             this.page(1);
             this.addMouseListener();
+            window.addEventListener('scroll', this.scrollToTop);
+        },
+        deactivated() {
+            window.removeEventListener('scroll', this.scrollToTop)
         }
 
     }
@@ -102,13 +158,17 @@
 </script>
 
 <style>
+:root {
+    --info_width:300px;
+}
     .outer {
         width: 100%;
-        display:inline-flex;
+        display:flex;
         padding-bottom: 80px;
         justify-content: center;
     }
     .main_container {
+        background-color: transparent;
     }
     
     .article_con {
@@ -183,15 +243,91 @@
     .user_card {
         margin-top: 35px;
         margin-left: 20px;
+        width: var(--info_width);
+        height: 360px;
+        border-radius: 16px;
+        padding: 16px;
         display: flex;
-        width: 20%;
-        height: 400px;
+        flex-direction: column;
+        align-items: center;
         box-shadow: 0 3px 8px 6px rgba(7,17,27,0.05);
+    }
+    .avatar {
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        display: block;
+        transition: filter 375ms ease-in 0.2s, transform 0.3s;
+        object-fit: cover;
+    }
+    .avatar:hover{
+        transform:rotate(360deg);
+    }
+    .author_name {
+        display: block;
+        font-weight: 500;
+        font-size: 1.57em;
+    }
+    .signal_info {
+        font-weight: 400;
+        padding: 10px 16px;
+    }
+    .outer_link {
+        width: 220px;
+        height: 40px;
+        background-color: var(--main_color);
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
+    .outer_link:hover {
+        background-color: var(--theme_orange);
+    }
+    .article_count_info {
+        display: grid;
+        width:calc(var(--info_width) - 60px);
+        margin-top: 20px;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 25px 25px 25px;
+    }
+    .label_info {
+        text-align: center;
     }
     .page_util {
         margin-top: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+    .go-top {
+        width: 60px;
+        height: 60px;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: transparent;
+    }
+    .back_png {        
+        border-radius: 50%;
+    }
+    .full_page {
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 100vh;
+    }
+    .header {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        top: 0px;
+    }
+    .header_bg {
+        width: 100%;
+        height: 100%;
     }
 </style>

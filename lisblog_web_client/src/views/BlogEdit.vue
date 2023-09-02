@@ -1,23 +1,26 @@
 <!-- 编辑博客 -->
 
 <template>
-    <div>
-        <el-container>
-            <el-header :gutter="20" class="header">
-                <el-row>
-                    <el-col :span="16">
-                        <el-input class="title" v-model='edit_article.title' placeholder="请输入文章标题"></el-input>
-                    </el-col>
-                    <el-col :span="4" :offset="4">
-                        <el-button type="primary" @click="submitForm">提交</el-button>
-                    </el-col>
-                </el-row>
-            </el-header>
-            <el-main>
-                <div id="vditor"></div>
-            </el-main>
-            
-        </el-container>
+    <div class="bg">
+        <div class="header">            
+            <el-row>
+                <el-col :span="16">
+                    <el-input class="title" v-model='edit_article.title' placeholder="请输入文章标题"></el-input>
+                </el-col>
+                <el-col :span="4" :offset="4">
+                    <div class="add-cover-div">
+                        <span>上传封面</span>
+                        
+                        <el-input class="add-cover-btn" type="file" accept="image/gif, image/jpeg, image/gif, image/png, image/bmp, image/webp"></el-input>
+                    </div>
+                    
+                    <el-button type="primary" @click="submitForm">提交</el-button>
+                </el-col>
+            </el-row>
+        </div>
+        <el-main>
+            <div id="vditor"></div>
+        </el-main>            
     </div>
 </template>
 
@@ -40,8 +43,23 @@
             jumpHomePage() {
                 this.$router.push("/blogs")
             },
+            addCover() {
+
+            },
             submitForm() {
                 let content = this.contentEditor.getValue()
+                if (!this.edit_article.title || this.edit_article.title == 'undefined')
+                {                
+                    ElMessage.warning("标题不能为空");
+                    return;
+                }
+                if (!content || content == 'undefined' || content.length < 2)
+                {
+                    ElMessage.warning("内容不能为空");
+                    return;
+                }
+                    console.log("文章内容= ", content)
+                    console.log("文章内容长度= ", content.length)
                 this.edit_article.content = content;
                 //todo
                 this.edit_article.userId = "1"
@@ -137,13 +155,33 @@
 </script>
 
 <style>
+  .bg {
+    padding: 0px 50px;
+  }
   .header {
     margin-top: 20px;
+    padding: 0 70px;
   }
   .submit_btn {
     float: right;
   }
   #vditor {
-    margin-top: 10px;
+    margin-top: 60px;
   }
+  .add-cover-div {
+    width: 100px;
+    height: 32px;
+    background-color: var(--main_color);
+    border-radius: 5px;
+    display: inline-block;
+    padding: 0;
+    color: white;
+    text-align: center;
+  }
+  .add-cover-btn {
+    width: 100px;
+    height: 32px;
+    opacity: 0;
+  }
+  
 </style>

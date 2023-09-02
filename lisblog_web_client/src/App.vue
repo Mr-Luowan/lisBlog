@@ -5,6 +5,9 @@
 </template>
 
 <style>
+  * {
+    font-size: 16px;
+  }
   html,body,#app{
     margin: 0;
     padding: 0;

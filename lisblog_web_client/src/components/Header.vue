@@ -1,21 +1,24 @@
 <template>
-    <div class="full_page">
+    <div class="bg">
         <p class="text">Hello World</p>
         <div class="m-content">
             <div>
-                <!-- <span class="title">Mr Lee博客</span> -->
+                <span class="title">Mr Lee博客</span>
             </div>
         
-            <div class="maction">
-                <el-link href="/blogs">主页</el-link>
+            <div class="maction" id="action_list">
                 <span>
-                    <el-link type="success" href="/blog/add" :disabled="hasLogin">发表文章</el-link>
+                    <el-link type="success" href="/blogs"><i class="fas fa-home"></i>&nbsp;主页</el-link>
+                </span>
+                
+                <span v-show="hasLogin">
+                    <el-link type="success" href="/blog/add"><i class="fas fa-search"></i>&nbsp;发表文章</el-link>
                 </span>
                 <span v-show="!hasLogin">
-                    <el-link type="primary" href="/login">登录</el-link>
+                    <el-link type="success" href="/login"><i class="fas fa-square-up-right"></i>&nbsp;登录</el-link>
                 </span>
                 <span v-show="hasLogin">
-                    <el-link type="danger" @click="logout">退出</el-link>
+                    <el-link type="success" @click="logout"><i class="fas fa-square-caret-left"></i>&nbsp;退出</el-link>
                 </span>
                 <div>
                     <el-avatar :size="50" :src="user.avatar"></el-avatar>
@@ -56,7 +59,7 @@
                     }
                 }).then((res) => {
                     _this.$store.commit('REMOVE_INFO')
-                    _this.$router.push('/login')
+                    location.reload();
                 })
             }, 
             goDown() {
@@ -88,27 +91,36 @@
         },
         mounted() {
             this.showText(document.querySelector("p"),'Hello World');
+            var userInfo = this.$store.getters.getUser
+            var userToken = this.$store.getters.getToken
+            // if(userInfo && userInfo.userName) {
+            //     this.user.userName = userInfo.userName
+            //     this.user.avatar = userInfo.avatar
+            //     this.hasLogin = true;
+            //     console.log("登录成功");
+            // }            
+            if (userToken)
+            {                
+                this.hasLogin = true;                
+                var action_list = document.getElementById("action_list")
+                action_list.style.width = "270px";
+                console.log("登录成功");
+            }
+            console.log("挂载回调 内存中的 用户token ", this.$store.getters.getToken)
         },
         created() {
-            var userInfo = this.$store.getters.getUser
-            if(userInfo && userInfo.userName) {
-                this.user.userName = userInfo.userName
-                this.user.avatar = userInfo.avatar
-                this.hasLogin = true
-            }
+            
         }
     }
 </script>
 
 <style scoped>
- 
-    .full_page {
+    .bg {
         flex-direction: column;
         display: flex;
         align-items: center;
         justify-content: space-between;
         height: 100vh;
-        background: no-repeat url('https://mr-luowan.github.io/img/whale.webp');
         background-size:100% 100%;
         background-attachment:fixed;
         background-position: center;
@@ -123,6 +135,8 @@
     }
     .maction {
         display: flex;
+        width: 180px;
+        justify-content: space-between;
         align-items: center;
     }
     .title {

@@ -19,6 +19,7 @@ export default createStore({
             localStorage.setItem('token', '')
             sessionStorage.setItem('userInfo', JSON.stringify(''))
             state.userInfo = {}
+            console.log("移除token")
         }
     },
     getters: {
