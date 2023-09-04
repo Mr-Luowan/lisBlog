@@ -72,9 +72,10 @@ public class ImagesServiceImpl extends ServiceImpl<ImagesMapper, Images> impleme
         String updateTime = LocalDate.now().toString().replace("-", "");
         //源文件名称
         String originalFilename = file.getOriginalFilename();
-        log.warn("源文件名称" + originalFilename);
-        String relativePath = BlogConstant.FILE_PREVIOUS + "/" + userId + "/" + updateTime + "/" + originalFilename;
-        String imageUrl = "http://localhost:8080/" + relativePath;
+        log.warn("源文件名称 = " + originalFilename);
+//        String relativePath = BlogConstant.FILE_PREVIOUS + "/" + userId + "/" + updateTime + "/" + originalFilename;
+//        String imageUrl = "http://localhost:8080/" + relativePath;
+        String imageUrl = "";
         File targetFile = new File(
                 fileLocation + userId +
                         File.separator + updateTime +
@@ -100,9 +101,11 @@ public class ImagesServiceImpl extends ServiceImpl<ImagesMapper, Images> impleme
         }
         Images images = new Images();
         images.setId(String.valueOf(idWorker.nextId()));
+        imageUrl = "http://localhost:8080/images/" + images.getId();
         images.setUrl(imageUrl);
         images.setName(originalFilename);
         images.setCreateTime(LocalDateTime.now());
+        images.setUpdateTime(LocalDateTime.now());
         images.setUserId(userId);
         images.setRealPath(targetFile.getAbsolutePath());
         baseMapper.insert(images);
@@ -137,7 +140,6 @@ public class ImagesServiceImpl extends ServiceImpl<ImagesMapper, Images> impleme
             ros.flush();
         } catch (IOException e) {
             e.printStackTrace();
-            return;
         } finally {
             try {
                 if (ros != null) {

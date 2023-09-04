@@ -9,12 +9,12 @@
                 </el-col>
                 <el-col :span="4" :offset="4">
                     <div class="add-cover-div">
-                        <span>上传封面</span>
-                        
-                        <el-input class="add-cover-btn" type="file" accept="image/gif, image/jpeg, image/gif, image/png, image/bmp, image/webp"></el-input>
-                    </div>
-                    
-                    <el-button type="primary" @click="submitForm">提交</el-button>
+                        <span>
+                            <label for="fileInput" class="input-button" title="上传封面">上传封面</label>
+                            <input id="fileInput" type="file" style="display: none;" @change="addCover()">
+                        </span>
+                    </div>                    
+                    <el-button type="primary" class="submit_btn" @click="submitForm">提交</el-button>
                 </el-col>
             </el-row>
         </div>
@@ -35,7 +35,8 @@
                 contentEditor: {},
                 edit_article: {
                     title: '',
-                    content: ''
+                    content: '',
+                    cover: ''
                 }
             }
         },
@@ -44,7 +45,29 @@
                 this.$router.push("/blogs")
             },
             addCover() {
-
+                const _this = this
+                var fileInput = document.getElementById("fileInput");
+                let img = fileInput.files[0];
+                console.log("选择的图片 ", img)
+                const formData = new FormData();
+                formData.append("file", img);
+                http(
+                    {
+                        url:'/api/images/upload',
+                        data: formData,
+                        headers: {
+                            isToken: true
+                        },
+                        method: "post"
+                    }
+                ).then((res) => {
+                    const imgUrl = res.data.data;
+                    _this.edit_article.cover = imgUrl;
+                    console.log("上传图片结果 ", imgUrl)
+                    ElMessage.success("上传成功")
+                }).catch((err) => {
+                    console.error("上传出错");
+                });
             },
             submitForm() {
                 let content = this.contentEditor.getValue()
@@ -163,7 +186,8 @@
     padding: 0 70px;
   }
   .submit_btn {
-    float: right;
+    margin-left: 10px;
+    margin-top: -3px;
   }
   #vditor {
     margin-top: 60px;
@@ -174,9 +198,11 @@
     background-color: var(--main_color);
     border-radius: 5px;
     display: inline-block;
-    padding: 0;
     color: white;
     text-align: center;
+  }
+  .input-button {
+    line-height: 32px;
   }
   .add-cover-btn {
     width: 100px;
